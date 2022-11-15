@@ -1,0 +1,30 @@
+{% extends 'library/base.html' %}
+
+{% block content %}
+    <h1>Book List</h1>
+    {% if books %}
+    <ul>
+      {% for book in books %}
+      <li style="font-size: 20px"><a href="{{ book.get_absolute_url }}">{{book.title}}</a> ({{book.author}})</li>
+      {% endfor %}
+    </ul>
+    {% else %}
+      <p>There are no books in the library.</p>
+    {% endif %}
+    <hr>
+  {% if is_paginated %}
+      <div class="pagination">
+          <span class="page-links">
+              {% if page_obj.has_previous %}
+                  <a class="btn btn-outline-info mb-4" href="{{ request.path }}?page={{ page_obj.previous_page_number }}">previous</a>
+              {% endif %}
+              <span class="btn btn-outline-info mb-4" class="page-current">
+                  Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+              </span>
+              {% if page_obj.has_next %}
+                  <a class="btn btn-outline-info mb-4" href="{{ request.path }}?page={{ page_obj.next_page_number }}">next</a>
+              {% endif %}
+          </span>
+      </div>
+  {% endif %}
+{% endblock %}
